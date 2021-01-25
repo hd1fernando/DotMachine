@@ -4,11 +4,11 @@ namespace VirtualMachine
 {
     public class Stack
     {
-        int[] _stack;
+        dynamic[] _stack;
         const int CAPACITY = 256;
         public Stack()
         {
-            _stack = new int[CAPACITY];
+            _stack = new dynamic[CAPACITY];
         }
         public int Size() => CAPACITY;
 
