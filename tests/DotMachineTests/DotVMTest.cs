@@ -7,7 +7,7 @@ namespace DotMachineTests
     public class DotVMTest
     {
         [Fact]
-        public void Add_ShouldAddTwoValues_AGraterThanB()
+        public void Add_ShouldAddTwoValues_TwoPositiveNumbers()
         {
             string program = @"
             PUSH 5
