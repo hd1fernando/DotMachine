@@ -83,6 +83,7 @@ namespace VirtualMachine
             InstructionsSet.Add("PUSH", PUSH);
             InstructionsSet.Add("POP", POP);
             InstructionsSet.Add("ADD", ADD);
+            InstructionsSet.Add("MUL", MUL);
         }
 
         void PUSH()
@@ -118,6 +119,11 @@ namespace VirtualMachine
             stack[SP.Get()] = EAX.Get();
         }
 
+        void MOV()
+        {
+
+        }
+
         void CPM()
         {
 
@@ -125,7 +131,13 @@ namespace VirtualMachine
 
         void MUL()
         {
+            EBX.Set(PopFromStack());
+            ECX.Set(PopFromStack());
+            EAX.Set(EBX.Get() * ECX.Get());
 
+            IncrementSP();
+
+            stack[SP.Get()] = EAX.Get();
         }
 
         void DIV()
