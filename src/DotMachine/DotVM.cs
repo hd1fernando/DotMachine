@@ -90,13 +90,14 @@ namespace VirtualMachine
             IncrementSP();
             var ip = IP.Get() + 1;
             stack[SP.Get()] = int.Parse(_program[ip]);
-            IP.Set(ip + 1);
+            IP.Set(ip);
         }
 
         int PopFromStack()
         {
             var sp = SP.Get();
-            return stack[sp--];
+            SP.Set(sp - 1);
+            return stack[sp];
         }
 
         void POP()
