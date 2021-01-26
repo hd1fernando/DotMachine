@@ -10,11 +10,13 @@ namespace VirtualMachine
         Register SP = new(); // Stack  Pointer
         Register IP = new(); // Instruction Pointer
 
-        Register EAX = new();
-        Register EBX = new();
-        Register ECX = new();
+        public Register EAX = new();
+        public Register EBX = new();
+        public Register ECX = new();
 
-        static bool _running;
+        Register ZF = new();
+
+        bool _running;
         string _strProgram;
         string[] _program;
         public DotVM(string program)
@@ -24,7 +26,17 @@ namespace VirtualMachine
 
         public void Load()
         {
-            _program = _strProgram.Split(' ');
+            _program = _strProgram
+                  .Trim()
+                  .Replace("\r", string.Empty)
+                  .Replace("\n", string.Empty)
+                  .Replace("\r\r", string.Empty)
+                  .Replace(Environment.NewLine, string.Empty)
+                  .Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            _running = true;
+            AddInstructions();
+            StartDefaultsRegisters();
         }
 
         public void Exec()
@@ -38,14 +50,14 @@ namespace VirtualMachine
 
         void IncrementIp()
         {
-            var value = IP.Get();
-            IP.Set(value++);
+            var ip = IP.Get();
+            IP.Set(ip + 1);
         }
 
         int IncrementSP()
         {
-            var sp = SP.Get();
-            SP.Set(sp++);
+            var sp = SP.Get() + 1;
+            SP.Set(sp);
             return SP.Get();
         }
 
@@ -63,19 +75,22 @@ namespace VirtualMachine
             InstructionsSet[instruction].Invoke();
         }
 
-        Dictionary<string, Action> InstructionsSet = new()
-        {
-            { "HLT", () => { _running = false; } }, // Stop the program
-            { "PSH", PushRule },
-            { "POP", PopRule },
-            { "ADD", AddRule }
-        };
 
-        void PushRule()
+        Dictionary<string, Action> InstructionsSet = new();
+        void AddInstructions()
+        {
+            InstructionsSet.Add("HLT", () => { _running = false; });
+            InstructionsSet.Add("PUSH", PUSH);
+            InstructionsSet.Add("POP", POP);
+            InstructionsSet.Add("ADD", ADD);
+        }
+
+        void PUSH()
         {
             IncrementSP();
-            var ip = IP.Get();
-            stack[SP.Get()] = int.Parse(_program[++ip]);
+            var ip = IP.Get() + 1;
+            stack[SP.Get()] = int.Parse(_program[ip]);
+            IP.Set(ip + 1);
         }
 
         int PopFromStack()
@@ -84,17 +99,14 @@ namespace VirtualMachine
             return stack[sp--];
         }
 
-        /// <summary>
-        /// Get a value from Stack and set in the EAX register
-        /// </summary>
-        void PopRule()
+        void POP()
         {
             int poppedValue = PopFromStack();
 
             EAX.Set(poppedValue);
         }
 
-        void AddRule()
+        void ADD()
         {
             EBX.Set(PopFromStack());
             ECX.Set(PopFromStack());
@@ -105,5 +117,29 @@ namespace VirtualMachine
             stack[SP.Get()] = EAX.Get();
         }
 
+        void CPM()
+        {
+
+        }
+
+        void MUL()
+        {
+
+        }
+
+        void DIV()
+        {
+
+        }
+
+        void XOR()
+        {
+
+        }
+
+        void JMP()
+        {
+
+        }
     }
 }

@@ -81,18 +81,4 @@ namespace VirtualMachine
         static string Fetch()
             => program[ip];
     }
-
-    enum Registers
-    {
-        A, B, C, D, E, F, PC, SP, NUM_OF_REGISTERS
-    }
-
-    enum InstructionSet : int
-    {
-        PSH, // Push a value to Stack
-        ADD, // Pops two values on top of the stack, adds them pushes to stack
-        POP, // Pops a value from stack
-        SET, // Sets a value to a register
-        HLT // Stop the program
-    };
 }
