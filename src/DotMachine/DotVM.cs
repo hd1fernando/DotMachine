@@ -14,7 +14,7 @@ namespace VirtualMachine
         public Register EBX = new();
         public Register ECX = new();
 
-        Register ZF = new();
+        public Register ZF = new();
 
         bool _running;
         string _strProgram;
@@ -64,6 +64,7 @@ namespace VirtualMachine
         void StartDefaultsRegisters()
         {
             SP.Set(-1);
+            ZF.Set(-1);
             IP.Set(0);
         }
 
@@ -84,6 +85,10 @@ namespace VirtualMachine
             InstructionsSet.Add("POP", POP);
             InstructionsSet.Add("ADD", ADD);
             InstructionsSet.Add("MUL", MUL);
+            InstructionsSet.Add("CMP", CMP);
+            InstructionsSet.Add("JMP", JMP);
+            InstructionsSet.Add("XOR", XOR);
+            InstructionsSet.Add("SUB", SUB);
         }
 
         void PUSH()
@@ -119,14 +124,29 @@ namespace VirtualMachine
             stack[SP.Get()] = EAX.Get();
         }
 
+        void SUB()
+        {
+            EBX.Set(PopFromStack());
+            ECX.Set(PopFromStack());
+            EAX.Set(EBX.Get() - ECX.Get());
+
+            IncrementSP();
+
+            stack[SP.Get()] = EAX.Get();
+        }
+
         void MOV()
         {
 
         }
 
-        void CPM()
+        void CMP()
         {
+            EBX.Set(PopFromStack());
+            EAX.Set(PopFromStack());
 
+            int result = EBX.Get() == EAX.Get() ? 1 : 0;
+            ZF.Set(result);
         }
 
         void MUL()
@@ -147,12 +167,18 @@ namespace VirtualMachine
 
         void XOR()
         {
+            EBX.Set(PopFromStack());
+            ECX.Set(PopFromStack());
+            EAX.Set(EBX.Get() ^ ECX.Get());
 
+            IncrementSP();
+
+            stack[SP.Get()] = EAX.Get();
         }
 
         void JMP()
         {
-
+            IP.Set(PopFromStack() - 1);
         }
     }
 }
