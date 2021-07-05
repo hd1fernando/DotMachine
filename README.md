@@ -9,20 +9,39 @@ A toy virtual machine based on the blog post  https://felixangell.com/blogs/virt
 - [x] MUL
 - [ ] DIV
 - [x] SUB
-- [x] XOR
-- [x] CMP
-- [ ] JPM
-- [ ] GT (Greater Than)
-- [ ] LT (Less Than)
-- [ ] HTL (End of program)
+- [x] XOR 
+- [x] CMP  (Compare)
+- [ ] JMP  (Jump)
+- [ ] GT   (Greater Than)
+- [ ] LT   (Less Than)
+- [ ] HTL  (End of program)
+- [ ] CALL (Call a O.S. function)
 
 # registers:
 - [x] EAX (General)
 - [X] EBX (General)
 - [X] ECX (General)
-- [X] SP (Stack Pointer)
-- [X] IP (Instruction Pointer)
-- [X] ZF (Zero Flag)
+- [X] SP  (Stack Pointer)
+- [X] IP  (Instruction Pointer)
+- [X] ZF  (Zero Flag)
 
 # stack:
-- [z] 256 positions
+- [x] 256  positions
+- [ ] 512  positions
+- [ ] 1024 positions
+
+# TODO:
+- [] Implements CLI
+- [] Read from a file (.asm or .dotm)
+- [] Ignore comments
+- [] Labels
+
+# Use example:
+```
+  ; Add two numbers
+  PUSH 5
+  PUSH 5
+  ADD
+  POP
+  HLT ; End of program
+```
