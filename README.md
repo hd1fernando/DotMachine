@@ -31,10 +31,10 @@ A toy virtual machine based on the blog post  https://felixangell.com/blogs/virt
 - [ ] 1024 positions
 
 # TODO:
-- [] Implements CLI
-- [] Read from a file (.asm or .dotm)
-- [] Ignore comments
-- [] Labels
+- [ ] Implements CLI
+- [ ] Read from a file (.asm or .dotm)
+- [ ] Ignore comments
+- [ ] Labels
 
 # Use example:
 ```
